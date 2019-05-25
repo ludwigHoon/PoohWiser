@@ -1,0 +1,9 @@
+{
+  "name": "PoohWiser",
+  "version": "1.0.0",
+  "description": "PoohWiser eWallet",
+  "main": "index.js",
+  "author": "Ludwig",
+  "license": "MIT",
+  "private": true
+}
