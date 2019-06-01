@@ -1,4 +1,4 @@
-//POWER USER
+[[
 {
   "user_name": "super.user.1",
   "password": "X!16a99a4e",
@@ -48,8 +48,8 @@
   "user_name": "super.user.10",
   "password": "X!80258f24",
   "email": "super.user.10@x.y"
-}
-//CUSTOMER LOGIN
+}],[
+
 {
   "user_name":"Robert.Hk.01",
   "password":"X!b3726b93",
@@ -199,4 +199,4 @@
 "user_name":"Eleanor.Hk.02",
 "password":"X!9c9893e7",
 "email":"eleanor.hk.02@x.y"
-}
+}]]
