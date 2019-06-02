@@ -11,35 +11,20 @@ export default class LoginForm extends Component {
     
     
     constructor(props){
+        t1 = {'email': 'Chris.Hk.02', 'password': 'X!19dbee82'}
+        t2 = {'email': 'Eleanor.Hk.02', 'password':'X!9c9893e7'}
         super(props);
-        this.state = {'email': 'Eleanor.Hk.02', 'password':'X!9c9893e7'}
-        //this.handleChange = this.handleInputChange.bind(this);
+        this.state = t1
     }
-/*
-    handleInputChange(event = {}) {
-        const name = event.target && event.target.name;
-        const value = event.target && event.target.value;
-      
-        this.setState({[name]: value});
-        console.log(name);
-        console.log(value);
-      }
-*/
+
     onButtonPress() {
-        console.log(this.state);
-        console.log(this.state.email);
-        console.log(this.state.password);
         axios.post('https://openlab.openbankproject.com/my/logins/direct', 
         '', {headers: {
             'Authorization': 'DirectLogin username="'+this.state.email+'",   password="'+this.state.password+'",  consumer_key="menzvlhllhpwbtxav5x1dtwxufczc1fcvlh4ss3v"',
             'Content-Type': 'application/json',
           },
         }).then((response) => {
-            //this.setState({token: response.data.token});
-            console.log(response.data.token);
-            //super.props.navigation.navigate('App');
-            //<MainTabNavigator />
-            this.props.navigation.navigate("Home", {'token' : response.data.token})
+            this.props.navigation.navigate("Home", {'token' : response.data.token, 'name': this.state.email})
           })
           .catch((error) => {console.log(error);Alert.alert('Wrong user name or password', alert); })
     };
@@ -54,8 +39,7 @@ export default class LoginForm extends Component {
                             autoCorrect={false} 
                             keyboardType='email-address' 
                             returnKeyType="next" 
-                            placeholder='Email or Mobile Num'
-                            defaultValue='Eleanor.Hk.02'
+                            placeholder='Email or User name'
                             value={this.state.email}
                             onChangeText={(email) => this.setState({ email })}
                             ref={input => { this.textInput = input }}
@@ -65,7 +49,6 @@ export default class LoginForm extends Component {
                            returnKeyType="go" ref={(input)=> this.passwordInput = input} 
                            placeholder='Password' 
                            name='password'
-                           defaultValue='X!9c9893e7'
                            onChange={this.handleInputChange}
                            value={this.state.password}
                            onChangeText={(password) => this.setState({ password })}

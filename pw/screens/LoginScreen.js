@@ -15,7 +15,6 @@ export default class LoginScreen extends React.Component {
     
       constructor(props){
         super(props);
-        console.info(this.props);
       }
 
     render() {
