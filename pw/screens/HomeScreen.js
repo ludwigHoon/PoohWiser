@@ -170,13 +170,12 @@ export default class HomeScreen extends React.Component {
             </View>
             <View style={styles.getStartedContainer}>
               {this._maybeRenderDevelopmentModeWarning()}
-  
+              
               <Text style={styles.getStartedText}>Current balance: {sum}</Text>
               <Text style={styles.getStartedText}>{this.state.token}</Text>
               <View style={[styles.codeHighlightContainer, styles.homeScreenFilename]}>
                 <MonoText style={styles.codeHighlightText}>screens/HomeScreen.js</MonoText>
               </View>
-  
               <Text style={styles.getStartedText}>
                 Change this text and your app will automatically reload.
               </Text>
