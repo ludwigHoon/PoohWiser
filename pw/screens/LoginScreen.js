@@ -18,18 +18,17 @@ export default class LoginScreen extends React.Component {
       }
 
     render() {
-        //<Image resizeMode="contain" style={styles.logo} source={require('../../components/images/logo-dark-bg.png')} />
         return (
-        <KeyboardAvoidingView behavior="padding" style={styles.container}>
+            
+            <KeyboardAvoidingView behavior="padding" style={styles.container}>
 
                 <View style={styles.loginContainer}>
-
-                    </View>
+                <Image style={styles.logo} source={require('../assets/images/pwiser.png')} />
+                </View>
                <View style={styles.formContainer}>
                    <LoginForm state={this.state} navigation={this.props.navigation}/>
                </View>
                
-         
             </KeyboardAvoidingView>
         );
     }
@@ -49,7 +48,8 @@ const styles = StyleSheet.create({
     logo: {
         position: 'absolute',
         width: 300,
-        height: 100
+        height: 100,
+        resizeMode: "contain",
     },
     title:{
         color: "#FFF",

@@ -1,6 +1,9 @@
 import React from 'react';
 import axios from 'axios';
 
+import { Card } from "react-native-elements";
+//https://streetsmartdev.com/create-horizontal-list-react-native/
+
 import {
   Image,
   Platform,
@@ -10,10 +13,38 @@ import {
   ActivityIndicator,
   TouchableOpacity,
   View,
+  FlatList, 
 } from 'react-native';
 import { WebBrowser } from 'expo';
 
 import { MonoText } from '../components/StyledText';
+
+const data = [
+  {
+    imageUrl: "http://via.placeholder.com/160x160",
+    title: "something"
+  },
+  {
+    imageUrl: "http://via.placeholder.com/160x160",
+    title: "something two"
+  },
+  {
+    imageUrl: "http://via.placeholder.com/160x160",
+    title: "something three"
+  },
+  {
+    imageUrl: "http://via.placeholder.com/160x160",
+    title: "something four"
+  },
+  {
+    imageUrl: "http://via.placeholder.com/160x160",
+    title: "something five"
+  },
+  {
+    imageUrl: "http://via.placeholder.com/160x160",
+    title: "something six"
+  }
+];
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -34,6 +65,7 @@ export default class HomeScreen extends React.Component {
       user: this.props.navigation.getParam('name', ''),
       balance : [],
       transaction : [],
+      data: data,
       }
   }
 
@@ -103,21 +135,39 @@ export default class HomeScreen extends React.Component {
       }
       sum = sum + ' ' + cur;
       return (
-        
         <View style={styles.container}>
           <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
             <View style={styles.welcomeContainer}>
-            <Text style={styles.getStartedText}>Hello {this.state.user}</Text>
               <Image
-                source={
-                  __DEV__
+                source={ require('../assets/images/pwiser.png')
+                  /*__DEV__
                     ? require('../assets/images/robot-dev.png')
-                    : require('../assets/images/robot-prod.png')
+                    : require('../assets/images/robot-prod.png')*/
                 }
                 style={styles.welcomeImage}
               />
+              <Text style={styles.getStartedText}>Hello {this.state.user}</Text>
             </View>
-  
+            <View>
+            <FlatList
+              horizontal
+              data={this.state.data}
+              renderItem={({ item: rowData }) => {
+                return (
+                  <Card
+                    title={null}
+                    image={{ uri: rowData.imageUrl }}
+                    containerStyle={{ padding: 0, width: 160 }}
+                  >
+                    <Text style={{ marginBottom: 10 }}>
+                      {rowData.title}
+                    </Text>
+                  </Card>
+                  );
+                }}
+                keyExtractor={(item, index) => index}
+              />
+            </View>
             <View style={styles.getStartedContainer}>
               {this._maybeRenderDevelopmentModeWarning()}
   
@@ -147,7 +197,7 @@ export default class HomeScreen extends React.Component {
             </View>
           </View>
         </View>
-      );
+    );
     }
   }
 
@@ -201,7 +251,7 @@ const styles = StyleSheet.create({
     paddingTop: 30,
   },
   welcomeContainer: {
-    alignItems: 'center',
+    alignItems: 'flex-start',
     marginTop: 10,
     marginBottom: 20,
   },
@@ -209,8 +259,8 @@ const styles = StyleSheet.create({
     width: 100,
     height: 80,
     resizeMode: 'contain',
-    marginTop: 3,
-    marginLeft: -10,
+    marginTop: -20,
+    marginLeft: 5,
   },
   getStartedContainer: {
     alignItems: 'center',
@@ -231,7 +281,8 @@ const styles = StyleSheet.create({
     fontSize: 17,
     color: 'rgba(96,100,109, 1)',
     lineHeight: 24,
-    textAlign: 'center',
+    textAlign: 'left',
+    marginLeft: 20,
   },
   tabBarInfoContainer: {
     position: 'absolute',
