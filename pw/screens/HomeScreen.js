@@ -21,28 +21,40 @@ import { MonoText } from '../components/StyledText';
 
 const data = [
   {
-    imageUrl: "http://via.placeholder.com/160x160",
-    title: "something"
+    imageUrl: "data:image;charset=utf-8;base64,NTY4Mw==", //Green / Yellow / Red
+    title: "Financial health",
+    value: "Good" //Available value: "Good", "Okay", "Bad"
   },
   {
-    imageUrl: "http://via.placeholder.com/160x160",
-    title: "something two"
+    imageUrl: "http://via.placeholder.com/160x160", //Pie chart
+    title: "Spending this month",
+    value : 1000 // Replace with calculation from current month
   },
   {
-    imageUrl: "http://via.placeholder.com/160x160",
-    title: "something three"
+    imageUrl: "http://via.placeholder.com/160x160", //stacked chart
+    title: "Current balance",
+    value: 0 // Replace with current balance
   },
   {
-    imageUrl: "http://via.placeholder.com/160x160",
-    title: "something four"
+    imageUrl: "http://via.placeholder.com/160x160", // Image
+    title: "Monthly bills",
+    value: 3000 //Replace with value from database
   },
   {
-    imageUrl: "http://via.placeholder.com/160x160",
-    title: "something five"
+    imageUrl: "http://via.placeholder.com/160x160", //Image
+    title: "Days to tax filing",
+    value: 132 //Replace with value from database
   },
   {
-    imageUrl: "http://via.placeholder.com/160x160",
-    title: "something six"
+    imageUrl: "http://via.placeholder.com/160x160", // Image
+    title: "Average monthly spending",
+    value: 1000, //Replace with value from database
+  }
+  ,
+  {
+    imageUrl: "http://via.placeholder.com/160x160", //Line chart
+    title: "Saving/Investment",
+    value: 500, //Replace with value from database
   }
 ];
 
@@ -137,16 +149,17 @@ export default class HomeScreen extends React.Component {
       return (
         <View style={styles.container}>
           <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+          <View style={{flex: 1, flexDirection: 'row', marginBottom: 0}}>
+          <View style={styles.welcomeContainer}>
+          <Image
+                  source={ require('../assets/images/pwiser.png')}
+                  style={styles.welcomeImage}
+                  />  
+            </View>
             <View style={styles.welcomeContainer}>
-              <Image
-                source={ require('../assets/images/pwiser.png')
-                  /*__DEV__
-                    ? require('../assets/images/robot-dev.png')
-                    : require('../assets/images/robot-prod.png')*/
-                }
-                style={styles.welcomeImage}
-              />
-              <Text style={styles.getStartedText}>Hello {this.state.user}</Text>
+              <Text style={styles.getStartedText}>
+                Hello {this.state.user}</Text>
+            </View>
             </View>
             <View>
             <FlatList
@@ -155,12 +168,14 @@ export default class HomeScreen extends React.Component {
               renderItem={({ item: rowData }) => {
                 return (
                   <Card
-                    title={null}
-                    image={{ uri: rowData.imageUrl }}
-                    containerStyle={{ padding: 0, width: 160 }}
+                    title={rowData.title}
+                    titleNumberOfLines={2}
+                    titleStyle={{ fontSize: 11, }}
+                    image={{ uri: rowData.imageUrl, }}
+                    containerStyle={{ padding: 0, width: 160, resizeMode:'contain' }}
                   >
                     <Text style={{ marginBottom: 10 }}>
-                      {rowData.title}
+                      Something
                     </Text>
                   </Card>
                   );
@@ -252,7 +267,7 @@ const styles = StyleSheet.create({
   welcomeContainer: {
     alignItems: 'flex-start',
     marginTop: 10,
-    marginBottom: 20,
+    marginBottom: 10,
   },
   welcomeImage: {
     width: 100,
