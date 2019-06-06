@@ -150,7 +150,8 @@ export default class HomeScreen extends React.Component {
         <View style={styles.container}>
           
           <View style={{flexDirection: 'row', marginTop: 35, marginBottom: 0, paddingBottom: 5}}>
-            
+          
+        
             <Image
                     source={ require('../assets/images/pwiser.png')}
                     style={styles.welcomeImage}
