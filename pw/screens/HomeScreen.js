@@ -148,8 +148,8 @@ export default class HomeScreen extends React.Component {
       sum = sum + ' ' + cur;
       return (
         <View style={styles.container}>
-          <ScrollView style={styles.container} contentContainerStyle={{paddingTop: 0}}>
-          <View style={{flex: 2, flexDirection: 'row', marginTop: 35, marginBottom: 0, paddingBottom: 5}}>
+          
+          <View style={{flexDirection: 'row', marginTop: 35, marginBottom: 0, paddingBottom: 5}}>
             
             <Image
                     source={ require('../assets/images/pwiser.png')}
@@ -159,32 +159,32 @@ export default class HomeScreen extends React.Component {
                 Hello {this.state.user}</Text>
             
           </View>
-          <View style={{flex:1, flexDirection: 'column'}}>
-          <View style={{flex:1, marginTop: 0, paddingStart: 0}}>
-            <FlatList
-              horizontal
-              data={this.state.data}
-              renderItem={({ item: rowData }) => {
-                return (
-                  <Card style={{height: 300}}
-                    title={rowData.title}
-                    titleNumberOfLines={2}
-                    titleStyle={{ fontSize: 11, }}
-                    image={{ uri: rowData.imageUrl, }}
-                    containerStyle={{ padding: 0, width: 160, }}
-                  >
-                    <Text style={{ marginBottom: 0 }}>
-                      {rowData.value}
-                    </Text>
-                  </Card>
-                  );
-                }}
-                keyExtractor={(item, index) => index}
-              />
-          </View>
-          </View>
-          </ScrollView>
 
+            <View style={{flexDirection: 'column', marginTop: 0, paddingStart: 0}}>
+              <FlatList
+                horizontal
+                data={this.state.data}
+                renderItem={({ item: rowData }) => {
+                  return (
+                    <Card style={{height: 300}}
+                      title={rowData.title}
+                      titleNumberOfLines={2}
+                      titleStyle={{ fontSize: 11, }}
+                      image={{ uri: rowData.imageUrl, }}
+                      containerStyle={{ padding: 0, width: 160, }}
+                    >
+                      <Text style={{ marginBottom: 0 }}>
+                        {rowData.value}
+                      </Text>
+                    </Card>
+                    );
+                  }}
+                  keyExtractor={(item, index) => index}
+                />
+            </View>
+
+          
+          
             <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
             <View style={styles.getStartedContainer}>
               {this._maybeRenderDevelopmentModeWarning()}
@@ -211,7 +211,7 @@ export default class HomeScreen extends React.Component {
               </TouchableOpacity>
             </View>
           </ScrollView>
-  
+          
           <View style={styles.tabBarInfoContainer}>
             <Text style={styles.tabBarInfoText}>This is a tab bar. You can edit it in:</Text>
   

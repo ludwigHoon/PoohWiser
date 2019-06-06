@@ -1,27 +1,45 @@
-import React from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
-import { ExpoLinksView } from '@expo/samples';
+import * as React from 'react';
+import { Text, View, StyleSheet, Button } from 'react-native';
+
+import { BarCodeScanner, Permissions } from 'expo';
+
 
 export default class LinksScreen extends React.Component {
-  static navigationOptions = {
-    title: 'Links',
+  state = {
+    hasCameraPermission: null,
+    scanned: false,
   };
 
+  async componentDidMount() {
+    const { status } = await Permissions.askAsync(Permissions.CAMERA);
+    //await Permissions.askAsync(Permissions.CAMERA, Permissions.CAMERA_ROLL);
+    this.setState({ hasCameraPermission: status === 'granted' });
+  }
+
   render() {
+    const { hasCameraPermission, scanned } = this.state;
+
+    if (hasCameraPermission === null) {
+      return <Text>Requesting for camera permission</Text>;
+    }
+    if (hasCameraPermission === false) {
+      return <Text>No access to camera</Text>;
+    }
     return (
-      <ScrollView style={styles.container}>
-        {/* Go ahead and delete ExpoLinksView and replace it with your
-           * content, we just wanted to provide you with some helpful links */}
-        <ExpoLinksView />
-      </ScrollView>
+      <View style={{ flex: 1, justifyContent: 'flex-end' }}>
+        <BarCodeScanner
+          onBarCodeScanned={scanned ? undefined : this.handleBarCodeScanned}
+          style={StyleSheet.absoluteFillObject}
+        />
+        {scanned && (
+          <Button title={'Tap to Scan Again'} onPress={() => this.setState({ scanned: false })} />
+        )}
+      </View>
     );
   }
-}
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: 15,
-    backgroundColor: '#fff',
-  },
-});
+  handleBarCodeScanned = ({ type, data }) => {
+    this.setState({ scanned: true });
+    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+  };
+}

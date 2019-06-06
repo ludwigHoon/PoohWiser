@@ -2790,6 +2790,14 @@ expo-barcode-scanner-interface@~2.0.0:
   resolved "https://registry.yarnpkg.com/expo-barcode-scanner-interface/-/expo-barcode-scanner-interface-2.0.0.tgz#3d5c7855511a783628baf9fd827f94770854ca12"
   integrity sha512-rfCLqL06zVcyT5usKBQqDA0ilIEYv5zi91lUJ6s2/Llvx/OHuiPY4w1ol5HJPRJQvaBHop3lXqnb7dUuEMTsIA==
 
+expo-barcode-scanner@^5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/expo-barcode-scanner/-/expo-barcode-scanner-5.0.1.tgz#4b35704e05ab61fa5d203ccc27045739072f84f7"
+  integrity sha512-9IGXvfd5w8P3swhauSXgCjR55qDvrSgQIc9AdyPZ70V5+UyBB6rmRF7NVPyNAWd3t41HhZ9mo9TKhOmggboG0Q==
+  dependencies:
+    lodash "^4.6.0"
+    prop-types "^15.6.0"
+
 expo-barcode-scanner@~2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/expo-barcode-scanner/-/expo-barcode-scanner-2.0.0.tgz#0b06c81a4457bc9c1c34f3423acf757dea6ac638"
@@ -2972,6 +2980,11 @@ expo-permissions-interface@~2.0.0:
   integrity sha512-hk9oR6CtV2MLONdtPkKvOfpfmbJ48BDbYjvW/Na31znVvUAPHs7owckqSgh5BVoIAz8tMgp7fptaifEhPOayvg==
   dependencies:
     expo-core "~2.0.0"
+
+expo-permissions@^5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/expo-permissions/-/expo-permissions-5.0.1.tgz#cc6af49a37ea3ab73e780a8a19f22b7662379941"
+  integrity sha512-cOg9f9TaV8grORTwLSuoPfviDGcJSALjaALvxdmQD5ujPW6lxO6Ofd/s4/dV4L3lJww4HXiurjPJnT5yo+3ydw==
 
 expo-permissions@~2.0.0:
   version "2.0.0"
@@ -4758,7 +4771,7 @@ lodash.zipobject@^4.1.3:
   resolved "https://registry.yarnpkg.com/lodash.zipobject/-/lodash.zipobject-4.1.3.tgz#b399f5aba8ff62a746f6979bf20b214f964dbef8"
   integrity sha1-s5n1q6j/YqdG9peb8gshT5ZNvvg=
 
-lodash@^4.0.0, lodash@^4.16.6, lodash@^4.17.11, lodash@^4.17.4, lodash@^4.17.5, lodash@^4.3.0, lodash@^4.6.1:
+lodash@^4.0.0, lodash@^4.16.6, lodash@^4.17.11, lodash@^4.17.4, lodash@^4.17.5, lodash@^4.3.0, lodash@^4.6.0, lodash@^4.6.1:
   version "4.17.11"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.11.tgz#b39ea6229ef607ecd89e2c8df12536891cac9b8d"
   integrity sha512-cQKh8igo5QUhZ7lg38DYWAxMvjSAKG0A8wGSVimP07SIUEK2UO+arSRKbRZWtelMtN5V0Hkwh5ryOto/SshYIg==
