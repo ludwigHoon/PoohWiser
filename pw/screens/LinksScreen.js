@@ -1,13 +1,9 @@
 import * as React from 'react';
-import { Text, Overlay, Modal, View, Image, Dimensions, StyleSheet, Button } from 'react-native';
+import { Alert, Text, TextInput, View, Image, Dimensions, KeyboardAvoidingView, StyleSheet, Button } from 'react-native';
 import { Dialog } from "react-native-simple-dialogs";
-import { createStackNavigator,} from 'react-navigation';
 import { BarCodeScanner, Permissions } from 'expo';
 import { ScrollView } from 'react-native-gesture-handler';
-import PayScreen from '../screens/PayScreen';
-const PayStack = createStackNavigator({
-    Pay: PayScreen,
-  });
+
 //API for generating qr code -  supply account ID to data
 //https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=Example
 
@@ -17,6 +13,7 @@ export default class LinksScreen extends React.Component {
   state = {
     hasCameraPermission: null,
     scanned: false,
+    payAmount: 0,
   };
 
   async componentDidMount() {
@@ -56,10 +53,10 @@ export default class LinksScreen extends React.Component {
         <Text style={styles.txt}> Scan to pay</Text>
         <BarCodeScanner
           onBarCodeScanned={scanned ? undefined : this.handleBarCodeScanned}
-          style={{width:width -50, height: width-50,}}
+          style={{width:width -60, height: width-60,}}
         />
         <Dialog
-                    title="Custom Dialog"
+                    title="Payment amount"
                     animationType="fade"
                     contentStyle={
                         {
@@ -70,30 +67,38 @@ export default class LinksScreen extends React.Component {
                     onTouchOutside={ () => {this.setState({'scanned': false});} }
                     visible={ scanned }
                 >
-                    <Image
-                        source={
-                            {
-                                uri: "https://facebook.github.io/react-native/img/header_logo.png",
-                            }
-                        }
-                        style={
-                            {
-                                width: 99,
-                                height: 87,
-                                backgroundColor: "black",
-                                marginTop: 10,
-                                resizeMode: "contain",
-                            }
-                        }
-                    />
+                  <KeyboardAvoidingView behavior="padding">
                     <Text style={ { marginVertical: 30 } }>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                        Enter the amount to pay to <Text style={{fontWeight: 'bold'}}>{this.state.scan}{'\n\n'}MYR</Text>
+                    </Text>
+                    <TextInput 
+                            autoCorrect={false} 
+                            keyboardType='number-pad' 
+                            returnKeyType="next" 
+                            placeholder='0'
+                            value={this.state.payAmount}
+                            onChangeText={(payAmount) => this.setState({ payAmount })}/>
+                    <Text>
+                    {"\n"}
+                    </Text>                    
+                    <Button
+                        onPress={ () => {this.setState({'scanned': false}); 
+                        Alert.alert('Notifications', `Paid ${this.state.payAmount} MYR to ${this.state.scan}`);
+                        this.setState({'payAmount': 0});
+                        this.props.navigation.navigate("Home", {'token' : this.state.token, 'name': this.state.email}) } }
+                        style={ { marginTop: 10, 'height': 50, 'width':100 } }
+                        color='green'
+                        title="Confirm"
+                    />
+                    <Text>
+                    {"\n"}
                     </Text>
                     <Button
-                        onPress={ () => {this.setState({'scanned': false}); } }
-                        style={ { marginTop: 10 } }
+                        onPress={ () => {this.setState({'scanned': false, 'payAmount': 0}); } }
+                        style={ { marginTop: 10, 'height': 50, 'width':100 } }
                         title="CLOSE"
                     />
+                    </KeyboardAvoidingView>
                 </Dialog>
 
         
@@ -111,8 +116,9 @@ export default class LinksScreen extends React.Component {
   }
 
   handleBarCodeScanned = ({ type, data }) => {
-    this.setState({ scanned: true });
+    this.setState({'scan': data});
     console.log(data);
+    this.setState({ scanned: true });
     //console.log(this.props.navigation)
     //this.props.navigation.navigate("Pay", {'token' : this.state.token, 'name': this.state.email})
     //alert(`Bar code with type ${type} and data ${data} has been scanned!`);
@@ -144,3 +150,21 @@ const styles = StyleSheet.create({
   }
 });
 
+/*
+<Image
+                        source={
+                            {
+                                uri: "https://facebook.github.io/react-native/img/header_logo.png",
+                            }
+                        }
+                        style={
+                            {
+                                width: 99,
+                                height: 87,
+                                backgroundColor: "black",
+                                marginTop: 10,
+                                resizeMode: "contain",
+                            }
+                        }
+                    />
+*/
