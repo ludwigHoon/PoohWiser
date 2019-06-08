@@ -1,8 +1,13 @@
 import * as React from 'react';
-import { Text, View, Image, Dimensions, StyleSheet, Button } from 'react-native';
-
+import { Text, Overlay, Modal, View, Image, Dimensions, StyleSheet, Button } from 'react-native';
+import { Dialog } from "react-native-simple-dialogs";
+import { createStackNavigator,} from 'react-navigation';
 import { BarCodeScanner, Permissions } from 'expo';
 import { ScrollView } from 'react-native-gesture-handler';
+import PayScreen from '../screens/PayScreen';
+const PayStack = createStackNavigator({
+    Pay: PayScreen,
+  });
 //API for generating qr code -  supply account ID to data
 //https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=Example
 
@@ -31,7 +36,10 @@ export default class LinksScreen extends React.Component {
 
     return (
       <View style={{ flex: 1, justifyContent: 'flex-end' }}>
-
+        <View style={{alignItems: 'center',}}>
+        <Text style={styles.txt} style={{fontSize:30, }}>Payment</Text>
+        
+        </View>
         <ScrollView ref={(scrollView) => { this.scrollView = scrollView; }}
         style={styles.container}
         horizontal= {true}
@@ -46,14 +54,48 @@ export default class LinksScreen extends React.Component {
         }}>
         <View style={styles.view2}>
         <Text style={styles.txt}> Scan to pay</Text>
-        
         <BarCodeScanner
           onBarCodeScanned={scanned ? undefined : this.handleBarCodeScanned}
           style={{width:width -50, height: width-50,}}
         />
-        {scanned && (
-          <Button style={{position: 'absolute', bottom: 10}} title={'Tap to Scan Again'} onPress={() => this.setState({ scanned: false })} />
-        )}
+        <Dialog
+                    title="Custom Dialog"
+                    animationType="fade"
+                    contentStyle={
+                        {
+                            alignItems: "center",
+                            justifyContent: "center",
+                        }
+                    }
+                    onTouchOutside={ () => {this.setState({'scanned': false});} }
+                    visible={ scanned }
+                >
+                    <Image
+                        source={
+                            {
+                                uri: "https://facebook.github.io/react-native/img/header_logo.png",
+                            }
+                        }
+                        style={
+                            {
+                                width: 99,
+                                height: 87,
+                                backgroundColor: "black",
+                                marginTop: 10,
+                                resizeMode: "contain",
+                            }
+                        }
+                    />
+                    <Text style={ { marginVertical: 30 } }>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                    </Text>
+                    <Button
+                        onPress={ () => {this.setState({'scanned': false}); } }
+                        style={ { marginTop: 10 } }
+                        title="CLOSE"
+                    />
+                </Dialog>
+
         
         </View>
         <View style={styles.view2}>
@@ -70,7 +112,10 @@ export default class LinksScreen extends React.Component {
 
   handleBarCodeScanned = ({ type, data }) => {
     this.setState({ scanned: true });
-    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+    console.log(data);
+    //console.log(this.props.navigation)
+    //this.props.navigation.navigate("Pay", {'token' : this.state.token, 'name': this.state.email})
+    //alert(`Bar code with type ${type} and data ${data} has been scanned!`);
   };
 
 }

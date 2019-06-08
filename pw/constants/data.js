@@ -156,8 +156,7 @@ const data2 = [
       imageUrl: "http://via.placeholder.com/160x160", // Image
       title: "Average monthly spending",
       value: 1000, //Replace with value from database
-    }
-    ,
+    },
     {
       imageUrl: "http://via.placeholder.com/160x160", //Line chart
       title: "Saving/Investment",
