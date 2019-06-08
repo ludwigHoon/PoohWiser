@@ -29,11 +29,6 @@ export default class LinksScreen extends React.Component {
       return <Text>No access to camera</Text>;
     }
 
-
-      
-
-    
-
     return (
       <View style={{ flex: 1, justifyContent: 'flex-end' }}>
 
@@ -51,13 +46,15 @@ export default class LinksScreen extends React.Component {
         }}>
         <View style={styles.view2}>
         <Text style={styles.txt}> Scan to pay</Text>
+        
         <BarCodeScanner
           onBarCodeScanned={scanned ? undefined : this.handleBarCodeScanned}
-          style={{width:width -10, height: width-10}}
+          style={{width:width -50, height: width-50,}}
         />
         {scanned && (
           <Button style={{position: 'absolute', bottom: 10}} title={'Tap to Scan Again'} onPress={() => this.setState({ scanned: false })} />
         )}
+        
         </View>
         <View style={styles.view2}>
         <Text style={styles.txt}>Receive</Text>
@@ -89,6 +86,8 @@ const styles = StyleSheet.create({
     margin: 0,
     height: height - 230,
     borderRadius: 0,
+    alignItems: 'center',
+    //justifyContent: 'center',
     //paddingHorizontal : 30
   },
   txt: {

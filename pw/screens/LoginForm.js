@@ -14,11 +14,11 @@ export default class LoginForm extends Component {
         t1 = {'email': 'Chris.Hk.02', 'password': 'X!19dbee82'}
         t2 = {'email': 'Eleanor.Hk.02', 'password':'X!9c9893e7'}
         super(props);
-        this.state = t1
+        this.state = t2
     }
 
-    onButtonPress() {
-        axios.post('https://openlab.openbankproject.com/my/logins/direct', 
+    async onButtonPress() {
+        await axios.post('https://openlab.openbankproject.com/my/logins/direct', 
         '', {headers: {
             'Authorization': 'DirectLogin username="'+this.state.email+'",   password="'+this.state.password+'",  consumer_key="menzvlhllhpwbtxav5x1dtwxufczc1fcvlh4ss3v"',
             'Content-Type': 'application/json',
