@@ -13,7 +13,8 @@ import {
   ActivityIndicator,
   TouchableOpacity,
   View,
-  FlatList, 
+  FlatList,
+  AsyncStorage, 
 } from 'react-native';
 import { WebBrowser } from 'expo';
 import { fdata1, fdata2 } from '../constants/data';
@@ -35,11 +36,13 @@ export default class HomeScreen extends React.Component {
       transact : '/owner/transactions',
     };
     this.state ={ isLoading: true, 
+      ftime: this.props.navigation.getParam('ftime', false),
       token: this.props.navigation.getParam('token', ''),
       user: this.props.navigation.getParam('name', ''),
       balance : [],
       transaction : [],
       data: [],
+      balance_deduct : 0,
       }
   }
 
@@ -72,6 +75,8 @@ export default class HomeScreen extends React.Component {
   }
 
   async componentDidMount() {
+    console.log('mount')
+    AsyncStorage.clear()
     //API Calls
     baseHeader =  {'Authorization': 'DirectLogin token="'+ this.state.token +'"'}
     //Assign the promise unresolved first then get the data using the json method. 
@@ -105,36 +110,53 @@ export default class HomeScreen extends React.Component {
     )
     */
    //Using custom data:
-   if(this.state.user == 'Eleanor.Hk.02'){
+   if(this.props.navigation.getParam('ftime', false)){
+    if(this.state.user == 'Eleanor.Hk.02'){
       this.setState({'data': fdata1.data})
       this.setState({'balance': fdata1.balance})
       this.setState({'transaction' : [...this.state.transaction, fdata1.transaction]})
-   }else{
+    }else{
       this.setState({'data': fdata2.data})
       this.setState({'balance': fdata2.balance})
       this.setState({'transaction' : [...this.state.transaction, fdata2.transaction]})
+    }
+    
+   }else{
    }
     this.setState({isLoading:false})
   }
 
+  async _updateData(){
+    console.log('re')
+    try{
+    await AsyncStorage.getItem("newTransact").then((value) => {tranction = JSON.parse(value)});
+    if(tranction == null){
+      return
+    }
+    this.setState({'transaction': [...this.state.transaction,tranction]});
+    await AsyncStorage.removeItem("newTransact")
+    ded = (this.state.balance_deduct + Number(tranction[0].value))
+    await this.setState({'balance_deduct': ded})
+    }
+    catch(error){
+      console.log(error);
+    }
+  }
+
   render() {
-    //console.log(this.state.token);
     if (this.state.isLoading){
       
       return <ActivityIndicator />;
     }else{
-      console.log("#V")
-      console.log(this.state.balance)
-      console.log('aa')
-      console.log(fdata1.balance)
+      this._updateData()
       //console.log(this.state.transaction[0])
       sum = 0
       cur = ''
       for (ind = 0; ind <this.state.balance.length; ind++){
-        console.log(this.state.balance[ind].amount)
         sum+=Number(this.state.balance[ind].amount)
         cur=this.state.balance[ind].currency
       }
+      sum = sum - this.state.balance_deduct;
       sum = sum + ' ' + cur;
       return (
         <View style={styles.container}>
@@ -203,13 +225,6 @@ export default class HomeScreen extends React.Component {
             </View>
           </ScrollView>
           
-          <View style={styles.tabBarInfoContainer}>
-            <Text style={styles.tabBarInfoText}>This is a tab bar. You can edit it in:</Text>
-  
-            <View style={[styles.codeHighlightContainer, styles.navigationFilename]}>
-              <MonoText style={styles.codeHighlightText}>navigation/MainTabNavigator.js</MonoText>
-            </View>
-          </View>
         </View>
     );
     }

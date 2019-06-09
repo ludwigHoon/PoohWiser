@@ -24,7 +24,7 @@ export default class LoginForm extends Component {
             'Content-Type': 'application/json',
           },
         }).then((response) => {
-            this.props.navigation.navigate("Home", {'token' : response.data.token, 'name': this.state.email})
+            this.props.navigation.navigate("Home", {'token' : response.data.token, 'name': this.state.email, 'ftime': true})
           })
           .catch((error) => {console.log(error);Alert.alert('Wrong user name or password', alert); })
     };

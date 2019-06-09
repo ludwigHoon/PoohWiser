@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Alert, Text, TextInput, View, Image, Dimensions, KeyboardAvoidingView, StyleSheet, Button } from 'react-native';
+import { AsyncStorage, Picker, Alert, Text, TextInput, View, Image, Dimensions, KeyboardAvoidingView, StyleSheet, Button } from 'react-native';
 import { Dialog } from "react-native-simple-dialogs";
 import { BarCodeScanner, Permissions } from 'expo';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -11,9 +11,11 @@ const { height, width } = Dimensions.get('window');
 
 export default class LinksScreen extends React.Component {
   state = {
+    tag: 'Food',
     hasCameraPermission: null,
     scanned: false,
     payAmount: 0,
+    transaction: [],
   };
 
   async componentDidMount() {
@@ -22,7 +24,18 @@ export default class LinksScreen extends React.Component {
     this.setState({ hasCameraPermission: status === 'granted' });
   }
 
+  async _saveData(){
+    try{
+      await AsyncStorage.setItem("newTransact",  JSON.stringify(this.state.New_transaction));
+      console.log('saved')
+    }catch(error){
+      console.log(error)
+    }
+  }
+
   render() {
+    //console.log(this.props.navigation)
+    //console.log(this.props.navigation.state)
     const { hasCameraPermission, scanned } = this.state;
     if (hasCameraPermission === null) {
       return <Text>Requesting for camera permission</Text>;
@@ -30,7 +43,6 @@ export default class LinksScreen extends React.Component {
     if (hasCameraPermission === false) {
       return <Text>No access to camera</Text>;
     }
-
     return (
       <View style={{ flex: 1, justifyContent: 'flex-end' }}>
         <View style={{alignItems: 'center',}}>
@@ -79,13 +91,48 @@ export default class LinksScreen extends React.Component {
                             value={this.state.payAmount}
                             onChangeText={(payAmount) => this.setState({ payAmount })}/>
                     <Text>
+                    Tag spending
+                    </Text>
+                    <Picker
+                     selectedValue={this.state.tag}
+                     onValueChange={(itemValue, itemIndex) =>
+                       this.setState({'tag': itemValue})
+                     }>
+                     <Picker.Item label="Food" value="Food" />
+                     <Picker.Item label="Transportation" value="Transportation" />
+                     <Picker.Item label="Entertainment" value="Entertainment" />
+                     <Picker.Item label="Bill" value="Bill" />
+                     <Picker.Item label="Home" value="Home" />
+                     <Picker.Item label="Misc" value="Misc" />
+                    </Picker>
+                    <Text>
                     {"\n"}
-                    </Text>                    
+                    </Text>
                     <Button
                         onPress={ () => {this.setState({'scanned': false}); 
                         Alert.alert('Notifications', `Paid ${this.state.payAmount} MYR to ${this.state.scan}`);
-                        this.setState({'payAmount': 0});
-                        this.props.navigation.navigate("Home", {'token' : this.state.token, 'name': this.state.email}) } }
+                        //API to do transaction here
+                        //Simulating addition to transaction instead
+                        //tbalance = this.state.balance.map(item => item.amount).reduce((prev, next) => prev + next);
+                        transaction = [{
+                          'description':this.state.tag,
+                          'completed': new Date(),
+                          'value':this.state.payAmount,
+                          'new_balance': 3,
+                          'currency': 'MYR',
+                          }];
+                        
+                        this.setState({'New_transaction': transaction}, ()=>{
+                          console.log(this.state.New_transaction);
+                          this._saveData();
+                          this.setState({'transaction' : transaction})
+                          this.setState({'payAmount': 0});
+                          this.props.navigation.navigate("Home", {'token' : this.state.token, 'name': this.state.email,});
+                        })
+                        console.log(this.state.transaction)
+                        console.log("****")
+                        console.log(this.state.transaction)
+                         } }
                         style={ { marginTop: 10, 'height': 50, 'width':100 } }
                         color='green'
                         title="Confirm"
@@ -119,9 +166,6 @@ export default class LinksScreen extends React.Component {
     this.setState({'scan': data});
     console.log(data);
     this.setState({ scanned: true });
-    //console.log(this.props.navigation)
-    //this.props.navigation.navigate("Pay", {'token' : this.state.token, 'name': this.state.email})
-    //alert(`Bar code with type ${type} and data ${data} has been scanned!`);
   };
 
 }
