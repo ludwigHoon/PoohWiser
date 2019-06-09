@@ -193,7 +193,7 @@ export default class HomeScreen extends React.Component {
                     </Card>
                     );
                   }}
-                  keyExtractor={(item, index) => index}
+                  keyExtractor={(item, index) => `${index}`}
                 />
             </View>
 

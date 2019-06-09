@@ -87,7 +87,7 @@ export default class LinksScreen extends React.Component {
                             autoCorrect={false} 
                             keyboardType='number-pad' 
                             returnKeyType="next" 
-                            placeholder='0'
+                            placeholder='"0"'
                             value={this.state.payAmount}
                             onChangeText={(payAmount) => this.setState({ payAmount })}/>
                     <Text>
